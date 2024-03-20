@@ -11,6 +11,7 @@
 #include "ray.h"
 #include <iostream>
 #include <fstream>
+#include <vector>
 using namespace std;
 
 class Sphere
@@ -19,6 +20,7 @@ class Sphere
     vec3 color;
     float radius;
 
+public:
     vec3 p() const { return position; };
     void p(vec3 position) { this->position = position; };
 
@@ -103,36 +105,92 @@ class Camera
     int image_width;
     int image_height;
     float focal_length = 1.0;
+    // Calculate the vectors across the horizontal and down the vertical viewport edges.
+    vec3 viewport_u = vec3(width, 0, 0);
+    vec3 viewport_v = vec3(0, -height, 0);
 
+    // Calculate the horizontal and vertical delta vectors from pixel to pixel.
+    vec3 pixel_delta_u = viewport_u / image_width;
+    vec3 pixel_delta_v = viewport_v / image_height;
+
+public:
     vec3 c() { return center; };
     int w() { return width; };
     int h() { return height; };
     int i_w() { return image_width; };
     int i_h() { return image_height; };
+    vec3 vp_u() { return viewport_u; };
+    vec3 vp_v() { return viewport_v; };
+    vec3 pd_u() { return pixel_delta_u; };
+    vec3 pd_v() { return pixel_delta_v; };
 
     Camera(vec3 center, int width, int height)
     {
-       
+
         this->height = 2.0;
         this->width = height * (static_cast<double>(image_width) / image_height);
         this->center = point3(0, 0, 0);
     }
 
-    vec3 GetPixelCenter(int coor1, int coor2){
-        // Calculate the vectors across the horizontal and down the vertical viewport edges.
-    auto viewport_u = vec3(width, 0, 0);
-    auto viewport_v = vec3(0, -height, 0);
+public:
+    vec3 GetPixelCenter(int coor1, int coor2)
+    {
 
-    // Calculate the horizontal and vertical delta vectors from pixel to pixel.
-    auto pixel_delta_u = viewport_u / image_width;
-    auto pixel_delta_v = viewport_v / image_height;
-    auto viewport_upper_left = center - vec3(coor1, coor2, focal_length) - viewport_u / 2 - viewport_v / 2;
-    auto pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
-
+        auto viewport_upper_left = center - vec3(coor1, coor2, focal_length) - viewport_u / 2 - viewport_v / 2;
+        auto pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
+        return pixel00_loc;
     }
 };
 
-int
-main()
+class World
+{
+    vector<Sphere> Spheres;
+    vec3 SkyColor;
+    string file_name;
+    int image_height;
+    int image_width;
+
+    World(vec3 SkyColor, string file_name)
+    {
+        this->SkyColor = SkyColor;
+        this->file_name = file_name;
+    }
+
+    void add_sphere(Sphere &new_sphere)
+    {
+        Spheres.push_back(new_sphere);
+    }
+
+    void Render(Camera &new_camera)
+    {
+
+        for (int j = 0; j < image_height; ++j) // y coordinates
+        {
+            for (int i = 0; i < image_width; ++i) // x coordinates
+            {
+                color pixel_color;
+                auto pixel_center = new_camera.GetPixelCenter(i, j) + (i * new_camera.pd_u()) + (j * new_camera.pd_v());
+                auto ray_direction = pixel_center - new_camera.c();
+                ray r(new_camera.c(), ray_direction);
+                double distance = 5000000000;
+                for (int a = 0; a < Spheres.size(); a++)
+                {
+                    if (Spheres[a].hit_sphere(r, distance))
+                    {
+                        pixel_color = color(Spheres[a].c());
+                    }
+                }
+                if (distance == 5000000000)
+                {
+                    pixel_color = color(SkyColor);
+                }
+
+                write_color(std::cout, pixel_color);
+            }
+        };
+    }
+};
+
+int main()
 {
 }
