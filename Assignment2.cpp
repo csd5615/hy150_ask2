@@ -11,6 +11,7 @@
 #include "ray.h"
 #include <iostream>
 #include <fstream>
+using namespace std;
 
 class Sphere
 {
@@ -18,10 +19,58 @@ class Sphere
     vec3 color;
     float radius;
 
+    vec3 p() const { return position; };
+    void p(vec3 position) { this->position = position; };
+
+    vec3 c() const { return color; };
+    void c(vec3 color)
+    {
+        try
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (color.e[i] >= 0 && color.e[i] < 255)
+                {
+                    this->color = color;
+                }
+                else
+                {
+                    throw(color);
+                }
+            }
+        }
+
+        catch (vec3 bad_color)
+        {
+            cout << "Oops! Colors must be between 0-255.";
+        }
+    };
+
+    float r() { return radius; };
+    void r(float radius) { this->radius = radius; };
+
     Sphere(vec3 position, vec3 color, float radius)
     {
         this->position = position;
-        this->color = color;
+        try
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                if (color.e[i] >= 0 && color.e[i] < 255)
+                {
+                    this->color = color;
+                }
+                else
+                {
+                    throw(color);
+                }
+            }
+        }
+
+        catch (vec3 bad_color)
+        {
+            cout << "Oops! Colors must be between 0-255.";
+        }
         this->radius = radius;
     }
 
@@ -35,17 +84,55 @@ class Sphere
 
         if (discriminant >= 0)
         {
-            double tmp_dist= oc.length()-radius;
-            if (tmp_dist>distance){
-                distance=tmp_dist;
+            double tmp_dist = oc.length() - radius;
+            if (tmp_dist > distance)
+            {
+                distance = tmp_dist;
                 return true;
             }
-            
         }
         return false;
     };
 };
 
-int main()
+class Camera
+{
+    vec3 center;
+    int width;
+    int height;
+    int image_width;
+    int image_height;
+    float focal_length = 1.0;
+
+    vec3 c() { return center; };
+    int w() { return width; };
+    int h() { return height; };
+    int i_w() { return image_width; };
+    int i_h() { return image_height; };
+
+    Camera(vec3 center, int width, int height)
+    {
+       
+        this->height = 2.0;
+        this->width = height * (static_cast<double>(image_width) / image_height);
+        this->center = point3(0, 0, 0);
+    }
+
+    vec3 GetPixelCenter(int coor1, int coor2){
+        // Calculate the vectors across the horizontal and down the vertical viewport edges.
+    auto viewport_u = vec3(width, 0, 0);
+    auto viewport_v = vec3(0, -height, 0);
+
+    // Calculate the horizontal and vertical delta vectors from pixel to pixel.
+    auto pixel_delta_u = viewport_u / image_width;
+    auto pixel_delta_v = viewport_v / image_height;
+    auto viewport_upper_left = center - vec3(coor1, coor2, focal_length) - viewport_u / 2 - viewport_v / 2;
+    auto pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
+
+    }
+};
+
+int
+main()
 {
 }
