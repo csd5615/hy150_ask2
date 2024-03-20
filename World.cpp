@@ -14,7 +14,7 @@ class World
     string file_name;
     int image_height;
     int image_width;
-
+public:
     World(vec3 SkyColor, string file_name)
     {
         this->SkyColor = SkyColor;
@@ -28,7 +28,7 @@ class World
 
     void Render(Camera &new_camera)
     {
-
+        fstream fout;
         for (int j = 0; j < image_height; ++j) // y coordinates
         {
             for (int i = 0; i < image_width; ++i) // x coordinates
@@ -50,7 +50,7 @@ class World
                     pixel_color = color(SkyColor);
                 }
 
-                write_color(std::cout, pixel_color);
+                 write_color(fout, pixel_color);
             }
         };
     }
