@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\Αναστασία\OneDrive\Υπολογιστής\CSD\150-C++\hy150_ask2\Example.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Αναστασία\OneDrive\Υπολογιστής\CSD\150-C++\hy150_ask2\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{D02DBCE5-0271-3386-A6A5-ECD4A4DFE30F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

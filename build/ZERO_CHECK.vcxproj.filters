@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\Αναστασία\OneDrive\Υπολογιστής\CSD\150-C++\hy150_ask2\build\CMakeFiles\e68590e6a48408ea2d984f37d5b66259\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{4505A8A1-44CA-3CC0-B5B9-FE04395A8906}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

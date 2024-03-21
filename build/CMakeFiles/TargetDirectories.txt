@@ -1,0 +1,4 @@
+C:/Users/Αναστασία/OneDrive/Υπολογιστής/CSD/150-C++/hy150_ask2/build/CMakeFiles/assignment2.dir
+C:/Users/Αναστασία/OneDrive/Υπολογιστής/CSD/150-C++/hy150_ask2/build/CMakeFiles/example.dir
+C:/Users/Αναστασία/OneDrive/Υπολογιστής/CSD/150-C++/hy150_ask2/build/CMakeFiles/ALL_BUILD.dir
+C:/Users/Αναστασία/OneDrive/Υπολογιστής/CSD/150-C++/hy150_ask2/build/CMakeFiles/ZERO_CHECK.dir
