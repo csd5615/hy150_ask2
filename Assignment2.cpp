@@ -44,7 +44,7 @@ int main()
 
     picture_name = line;
     fout.open(picture_name + ".ppm", ios::out | ios::trunc); // naming the file
-cout<<picture_name;
+
 
 
     getline(cin, line);
@@ -73,7 +73,7 @@ cout<<picture_name;
     SkyColor.e[1] = e4;
     SkyColor.e[2] = e5;
 
-    //cout<<SkyColor.e[2];
+    
 
     World my_world(SkyColor, picture_name);
 
@@ -94,7 +94,6 @@ cout<<picture_name;
         sphere_position.e[0] = tmp1;
         sphere_position.e[1] = tmp2;
         sphere_position.e[2] = tmp3;
-        cout<<"\n"<<sphere_position;
         sphere_radius = tmpRad;
         Sphere my_sphere(sphere_position, sphere_color, sphere_radius);
         my_world.add_sphere(my_sphere);
