@@ -58,7 +58,7 @@ color ray_color(const ray &r)
     // The color class is a custom type that represents a color in RGB format. 
     // The constructor color() initializes a color with the given red, green, and blue components. 
     // In this case, the color is fully red, as indicated by the arguments (1, 0, 0).
-    if (hit_sphere(point3(0, 0, -1), 0.5, r))
+    if (hit_sphere(point3(0, 0, -2), 0.5, r))
         return color(1, 0, 0); // red
 
     vec3 unit_direction = unit_vector(r.direction());
@@ -68,6 +68,9 @@ color ray_color(const ray &r)
 
 int main()
 {
+    std::fstream fout;
+    fout.open("example.ppm",std::ios::out | std::ios::trunc);
+    std::cout.rdbuf(fout.rdbuf());
     // Image
     auto aspect_ratio = 16.0 / 9.0;
     int image_width = 600;

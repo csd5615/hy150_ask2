@@ -6,12 +6,17 @@
 #include <vector>
 #include "Classes.h"
 using namespace std;
+class Bad_color{
 
+};
 class Sphere
 {
     vec3 position;
     vec3 color;
     float radius;
+
+    public:
+    vec3 bad_color;
 
 public:
     vec3 p() const { return position; };
@@ -35,7 +40,7 @@ public:
             }
         }
 
-        catch (vec3 bad_color)
+        catch (Bad_color &error)
         {
             cout << "Oops! Colors must be between 0-255.";
         }
@@ -62,7 +67,7 @@ public:
             }
         }
 
-        catch (vec3 bad_color)
+        catch (Bad_color &error)
         {
             cout << "Oops! Colors must be between 0-255.";
         }
@@ -79,8 +84,8 @@ public:
 
         if (discriminant >= 0)
         {
-            double tmp_dist = oc.length() - radius;
-            if (tmp_dist > distance)
+            double tmp_dist = (-b-sqrt(discriminant))/2*a;
+            if (tmp_dist < distance || distance == 0)
             {
                 distance = tmp_dist;
                 return true;

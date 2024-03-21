@@ -10,25 +10,25 @@ using namespace std;
 class Camera
 {
     vec3 center;
+    double viewport_height;
+    double viewport_width;
     int width;
     int height;
-    int image_width;
-    int image_height;
     float focal_length = 1.0;
     // Calculate the vectors across the horizontal and down the vertical viewport edges.
-    vec3 viewport_u = vec3(width, 0, 0);
-    vec3 viewport_v = vec3(0, -height, 0);
+    vec3 viewport_u;
+    vec3 viewport_v;
 
     // Calculate the horizontal and vertical delta vectors from pixel to pixel.
-    vec3 pixel_delta_u = viewport_u / image_width;
-    vec3 pixel_delta_v = viewport_v / image_height;
+    vec3 pixel_delta_u;
+    vec3 pixel_delta_v;
 
 public:
     vec3 c() { return center; };
-    int w() { return width; };
-    int h() { return height; };
-    int i_w() { return image_width; };
-    int i_h() { return image_height; };
+    double w() { return width; };
+    double h() { return height; };
+    int i_w() { return width; };
+    int i_h() { return height; };
     vec3 vp_u() { return viewport_u; };
     vec3 vp_v() { return viewport_v; };
     vec3 pd_u() { return pixel_delta_u; };
@@ -36,18 +36,25 @@ public:
 
     Camera(vec3 center, int width, int height)
     {
-
-        this->height = 2.0;
-        this->width = height * (static_cast<double>(image_width) / image_height);
-        this->center = point3(0, 0, 0);
+        this->height=height;
+        this->width=width;
+        this->viewport_height = 2;
+        this->viewport_width = viewport_height * (static_cast<double>(width) / height);
+        this->center = center;
+        viewport_u = vec3(viewport_width, 0, 0);
+        viewport_v = vec3(0, -viewport_height, 0);
+        pixel_delta_u = viewport_u / width;
+        pixel_delta_v = viewport_v / height;
+        
     }
 
 public:
     vec3 GetPixelCenter(int coor1, int coor2)
     {
 
-        auto viewport_upper_left = center - vec3(coor1, coor2, focal_length) - viewport_u / 2 - viewport_v / 2;
+        auto viewport_upper_left = center - vec3(0, 0, focal_length) - viewport_u / 2 - viewport_v / 2;
         auto pixel00_loc = viewport_upper_left + 0.5 * (pixel_delta_u + pixel_delta_v);
-        return pixel00_loc;
+        auto pixel_center = pixel00_loc + (coor1 * pixel_delta_u) + (coor2 * pixel_delta_v);
+        return pixel_center;
     }
 };

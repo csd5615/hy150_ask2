@@ -7,5 +7,6 @@
 class Sphere;
 class Camera;
 class World;
+class Bad_color;
 
 #endif // CLASSES_H

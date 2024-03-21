@@ -20,38 +20,40 @@ public:
         this->SkyColor = SkyColor;
         this->file_name = file_name;
     }
-
+vector<Sphere> S(){return Spheres;};
     void add_sphere(Sphere &new_sphere)
     {
         Spheres.push_back(new_sphere);
     }
 
-    void Render(Camera &new_camera)
+    void Render(Camera &new_camera, fstream* fout)
     {
-        fstream fout;
-        for (int j = 0; j < image_height; ++j) // y coordinates
+        *fout << "P3\n"
+         << new_camera.i_w() << ' ' << new_camera.i_h() << "\n255\n";
+        
+        for (int j = 0; j < new_camera.i_h(); j++) // y coordinates
         {
-            for (int i = 0; i < image_width; ++i) // x coordinates
+            for (int i = 0; i < new_camera.i_w(); i++) // x coordinates
             {
-                color pixel_color;
-                auto pixel_center = new_camera.GetPixelCenter(i, j) + (i * new_camera.pd_u()) + (j * new_camera.pd_v());
+                color pixel_color = color(SkyColor);
+                auto pixel_center = new_camera.GetPixelCenter(i, j);
                 auto ray_direction = pixel_center - new_camera.c();
                 ray r(new_camera.c(), ray_direction);
-                double distance = 5000000000;
+                double distance = 0;
                 for (int a = 0; a < Spheres.size(); a++)
                 {
+                    
                     if (Spheres[a].hit_sphere(r, distance))
                     {
+                        //cout << "hello";
                         pixel_color = color(Spheres[a].c());
                     }
                 }
-                if (distance == 5000000000)
-                {
-                    pixel_color = color(SkyColor);
-                }
-
-                 write_color(fout, pixel_color);
+                
+                //cout<<" "<<j;
+                 write_color(*fout, pixel_color);
             }
         };
+        cout<< "DONE!";
     }
 };
